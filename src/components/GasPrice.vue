@@ -6,6 +6,30 @@
       The gas price, typically calculated in Gwei, changes depending on
       transaction activity in the Ethereum network.
       </p>
+      <div class="columns">
+        <div class="column low-price">
+          <div class="box">
+            <p class="title">Cheap</p>
+            <p>The cheapest price likely to still get your transaction
+            through</p>
+            <p class="price stat">{{ lowPrice }}</p>
+          </div>
+        </div>
+        <div class="column normal-price">
+          <div class="box">
+            <p class="title">Normal</p>
+            <p>A good balance of speed and value</p>
+            <p class="price stat">{{ normalPrice }}</p>
+          </div>
+        </div>
+        <div class="column high-price">
+          <div class="box">
+            <p class="title">Fast</p>
+            <p>More expensive, but get your transaction confirmed fast</p>
+            <p class="price stat">{{ highPrice }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
