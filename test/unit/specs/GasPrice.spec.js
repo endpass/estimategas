@@ -32,7 +32,7 @@ describe('GasPrice', () => {
     moxios.uninstall()
   })
 
-  it('should show a description', () => {
+  it('should show a gas price description', () => {
     expect(wrapper.contains('.gas-price .description')).toBe(true)
     expect(wrapper.find('.gas-price .description').text()).toBeTruthy()
   })
@@ -44,23 +44,22 @@ describe('GasPrice', () => {
       fetchPriceFromGasStation: () => {}
     })
 
-    checkPrice('.low-price .price', vm.lowPrice)
-    checkPrice('.normal-price .price', vm.normalPrice)
-    checkPrice('.high-price .price', vm.highPrice)
+    checkValue('.low-price .price', vm.lowPrice)
+    checkValue('.normal-price .price', vm.normalPrice)
+    checkValue('.high-price .price', vm.highPrice)
   })
 
   it('should update prices from gas station api', (done) => {
     moxios.wait( () => {
-      checkPrice('.low-price .price', expectedPrices.lowPrice)
-      checkPrice('.normal-price .price', expectedPrices.normalPrice)
-      checkPrice('.high-price .price', expectedPrices.highPrice)
+      checkValue('.low-price .price', expectedPrices.lowPrice)
+      checkValue('.normal-price .price', expectedPrices.normalPrice)
+      checkValue('.high-price .price', expectedPrices.highPrice)
       done()
     })
-
   })
 
   // check that a displayed price is equal to a data variable
-  let checkPrice = (selector, value) => {
+  let checkValue = (selector, value) => {
     let el = wrapper.find(selector)
     expect(el.exists()).toBe(true)
     expect(el.text()).toBe(value.toString())
