@@ -13,6 +13,7 @@
             <p>The cheapest price likely to still get your transaction
             through</p>
             <p class="price stat">{{ lowPrice }}</p>
+            <span class="stat-caption">Gwei</span>
           </div>
         </div>
         <div class="column normal-price">
@@ -20,6 +21,7 @@
             <p class="title">Normal</p>
             <p>A good balance of speed and value</p>
             <p class="price stat">{{ normalPrice }}</p>
+            <span class="stat-caption">Gwei</span>
           </div>
         </div>
         <div class="column high-price">
@@ -27,6 +29,7 @@
             <p class="title">Fast</p>
             <p>More expensive, but get your transaction confirmed fast</p>
             <p class="price stat">{{ highPrice }}</p>
+            <span class="stat-caption">Gwei</span>
           </div>
         </div>
       </div>
@@ -35,6 +38,11 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+// Use EthGasStation API for now, switch to own API later
+const GAS_STATION_API = 'https://ethgasstation.info/json/ethgasAPI.json'
+
 export default {
   name: 'GasPrice',
   data () {
@@ -44,6 +52,22 @@ export default {
       normalPrice: 20,
       highPrice: 60
     }
+  },
+  methods: {
+    //Fetch gas prices and set them in data
+    fetchPriceFromGasStation() {
+      axios.get(GAS_STATION_API)
+      .then(response => {
+        let gasPrices = response.data
+        this.lowPrice = gasPrices.safeLow / 10
+        this.normalPrice = gasPrices.average / 10
+        this.highPrice = gasPrices.fast / 10
+      })
+      .catch(e => console.log(e))
+    }
+  },
+  mounted() {
+    this.fetchPriceFromGasStation()
   }
 }
 </script>
