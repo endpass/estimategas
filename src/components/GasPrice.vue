@@ -38,10 +38,9 @@
 </template>
 
 <script>
+import config from '@/config'
 import axios from 'axios'
 
-// Use EthGasStation API for now, switch to own API later
-const GAS_STATION_API = 'https://ethgasstation.info/json/ethgasAPI.json'
 
 export default {
   name: 'GasPrice',
@@ -56,7 +55,7 @@ export default {
   methods: {
     //Fetch gas prices and set them in data
     fetchPriceFromGasStation() {
-      axios.get(GAS_STATION_API)
+      axios.get(config.endpoints.gasStation)
       .then(response => {
         let gasPrices = response.data
         this.lowPrice = gasPrices.safeLow / 10
