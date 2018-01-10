@@ -38,8 +38,9 @@
 </template>
 
 <script>
-import config from '@/config'
 import axios from 'axios'
+
+import config from '@/config'
 
 
 export default {
@@ -49,7 +50,8 @@ export default {
       // Sane defaults for gas price in Gwei
       lowPrice: 5,
       normalPrice: 20,
-      highPrice: 60
+      highPrice: 60,
+      ethFiatPrice: 0 // int eth price in cents
     }
   },
   methods: {
@@ -63,12 +65,33 @@ export default {
         this.highPrice = gasPrices.fast / 10
       })
       .catch(e => console.log(e))
+    },
+    // Fetch fiat price of eth from coinmarketcap
+    fetchFiatPrice() {
+      axios.get(`${config.endpoints.marketCap}/ticker/ethereum?convert=${this.fiatCurrency}`)
+      .then(response => {
+        this.ethFiatPrice = parseInt(parseFloat(response.data.price_usd) *100)
+      })
+      .catch(e => console.log(e))
+    },
+    // compute tx price in fiat for gas price in Gwei and gas limit
+    txPrice(gasPrice, gasLimit) {
+      let pricePerGwei = this.ethFiatPrice / 1000000000 // price in cents
+      return Math.floor(pricePerGwei * gasPrice * gasLimit) / 100
+    }
+  },
+  computed: {
+    //TODO get from cookie
+    fiatCurrency() {
+      return config.defaultCurrency
     }
   },
   mounted() {
     this.fetchPriceFromGasStation()
+    this.fetchFiatPrice()
   }
 }
+
 </script>
 
 <style scoped>

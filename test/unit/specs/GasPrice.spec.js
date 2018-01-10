@@ -5,7 +5,6 @@ import config from '@/config'
 import GasPrice from '@/components/GasPrice'
 
 describe('GasPrice', () => {
-  let wrapper
   let expectedPrices = {
     lowPrice: 24,
     normalPrice: 30,
@@ -14,7 +13,32 @@ describe('GasPrice', () => {
 
   beforeEach(() => {
     moxios.install()
+  })
 
+  afterEach(() => {
+    moxios.uninstall()
+  })
+
+  it('should show a gas price description', () => {
+    let wrapper = mount(GasPrice)
+    expect(wrapper.contains('.gas-price .description')).toBe(true)
+    expect(wrapper.find('.gas-price .description').text()).toBeTruthy()
+  })
+
+  it('should show default prices before fetching updates', () => {
+    let wrapper = mount(GasPrice)
+    let vm = wrapper.vm
+    // empty method to not stub ajax every time
+    wrapper.setMethods({
+      fetchPriceFromGasStation: () => {}
+    })
+
+    checkValue(wrapper, '.low-price .price', vm.lowPrice)
+    checkValue(wrapper, '.normal-price .price', vm.normalPrice)
+    checkValue(wrapper, '.high-price .price', vm.highPrice)
+  })
+
+  it('should update prices from gas station api', (done) => {
     moxios.stubRequest(config.endpoints.gasStation, {
       status: 200,
       response: {
@@ -23,43 +47,47 @@ describe('GasPrice', () => {
         fast: 900.0
       }
     })
-
-    wrapper = mount(GasPrice)
-
-  })
-
-  afterEach(() => {
-    moxios.uninstall()
-  })
-
-  it('should show a gas price description', () => {
-    expect(wrapper.contains('.gas-price .description')).toBe(true)
-    expect(wrapper.find('.gas-price .description').text()).toBeTruthy()
-  })
-
-  it('should show default prices before fetching updates', () => {
-    let vm = wrapper.vm
-    // empty method to not stub ajax every time
-    wrapper.setMethods({
-      fetchPriceFromGasStation: () => {}
-    })
-
-    checkValue('.low-price .price', vm.lowPrice)
-    checkValue('.normal-price .price', vm.normalPrice)
-    checkValue('.high-price .price', vm.highPrice)
-  })
-
-  it('should update prices from gas station api', (done) => {
+    // moxios request MUST be stubbed before wrapper is mounted
+    let wrapper = mount(GasPrice)
     moxios.wait( () => {
-      checkValue('.low-price .price', expectedPrices.lowPrice)
-      checkValue('.normal-price .price', expectedPrices.normalPrice)
-      checkValue('.high-price .price', expectedPrices.highPrice)
+      checkValue(wrapper, '.low-price .price', expectedPrices.lowPrice)
+      checkValue(wrapper, '.normal-price .price', expectedPrices.normalPrice)
+      checkValue(wrapper, '.high-price .price', expectedPrices.highPrice)
       done()
     })
   })
 
+  it('should have a default fiat currency', () => {
+    let wrapper = mount(GasPrice)
+    expect(wrapper.vm.fiatCurrency).toEqual(config.defaultCurrency)
+  })
+
+  it('should get eth fiat price from coinmarketcap', (done) => {
+    moxios.stubRequest(/.*ticker\/ethereum.*/, {
+      status: 200,
+      response: {
+        price_usd: "1200.31"
+      }
+    })
+    // moxios request MUST be stubbed before wrapper is mounted
+    let wrapper = mount(GasPrice)
+    moxios.wait( () => {
+      expect(wrapper.vm.ethFiatPrice).toEqual(120031)
+      done()
+    })
+  })
+
+  it('should correctly calculate tx fiat price', () => {
+    let wrapper = mount(GasPrice)
+    wrapper.setData({ethFiatPrice: 120031})
+    expect(wrapper.vm.txPrice(20,21000)).toEqual(0.5)
+    expect(wrapper.vm.txPrice(40,21000)).toEqual(1)
+    expect(wrapper.vm.txPrice(20,200000)).toEqual(4.8)
+    expect(wrapper.vm.txPrice(40,200000)).toEqual(9.6)
+  })
+
   // check that a displayed price is equal to a data variable
-  let checkValue = (selector, value) => {
+  let checkValue = (wrapper, selector, value) => {
     let el = wrapper.find(selector)
     expect(el.exists()).toBe(true)
     expect(el.text()).toBe(value.toString())
