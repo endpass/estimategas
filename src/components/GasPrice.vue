@@ -14,6 +14,8 @@
             through</p>
             <p class="price stat">{{ lowPrice }}</p>
             <span class="stat-caption">Gwei</span>
+            <p class="fiat-price"><span class="value">{{
+              standardTxPrice(lowPrice) }}</span></p>
           </div>
         </div>
         <div class="column normal-price">
@@ -22,6 +24,8 @@
             <p>A good balance of speed and value</p>
             <p class="price stat">{{ normalPrice }}</p>
             <span class="stat-caption">Gwei</span>
+            <p class="fiat-price"><span class="value">{{
+              standardTxPrice(normalPrice) }}</span></p>
           </div>
         </div>
         <div class="column high-price">
@@ -30,6 +34,8 @@
             <p>More expensive, but get your transaction confirmed fast</p>
             <p class="price stat">{{ highPrice }}</p>
             <span class="stat-caption">Gwei</span>
+            <p class="fiat-price"><span class="value">{{
+              standardTxPrice(highPrice) }}</span></p>
           </div>
         </div>
       </div>
@@ -78,6 +84,9 @@ export default {
     txPrice(gasPrice, gasLimit) {
       let pricePerGwei = this.ethFiatPrice / 1000000000 // price in cents
       return Math.floor(pricePerGwei * gasPrice * gasLimit) / 100
+    },
+    standardTxPrice(gasPrice) {
+      return this.txPrice(gasPrice, config.gasLimits.transaction)
     }
   },
   computed: {

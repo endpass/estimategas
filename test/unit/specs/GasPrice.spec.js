@@ -86,6 +86,15 @@ describe('GasPrice', () => {
     expect(wrapper.vm.txPrice(40,200000)).toEqual(9.6)
   })
 
+  it('should display fiat price at each gas price', () => {
+    let wrapper = mount(GasPrice)
+    wrapper.setData({ethFiatPrice: 120031})
+
+    checkValue(wrapper, '.low-price .fiat-price .value', 0.12)
+    checkValue(wrapper, '.normal-price .fiat-price .value', 0.5)
+    checkValue(wrapper, '.high-price .fiat-price .value', 1.51)
+  })
+
   // check that a displayed price is equal to a data variable
   let checkValue = (wrapper, selector, value) => {
     let el = wrapper.find(selector)
