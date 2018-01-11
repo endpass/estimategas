@@ -1,11 +1,11 @@
 // Use EthGasStation API for now, switch to own API later
 const GAS_STATION_API = 'https://ethgasstation.info/json/ethgasAPI.json'
-const COIN_MARKET_CAP_API = 'https://api.coinmarketcap.com/v1'
+const CRYPTO_COMPARE_API = 'https://min-api.cryptocompare.com/data/price'
 
 export default {
   endpoints: {
     gasStation: GAS_STATION_API,
-    marketCap: COIN_MARKET_CAP_API
+    cryptoCompare: CRYPTO_COMPARE_API
   },
   // Standard gas limits
   gasLimits: {

@@ -62,11 +62,11 @@ describe('GasPrice', () => {
     expect(wrapper.vm.fiatCurrency).toEqual(config.defaultCurrency)
   })
 
-  it('should get eth fiat price from coinmarketcap', (done) => {
-    moxios.stubRequest(/.*ticker\/ethereum.*/, {
+  it('should get eth fiat price from cryptocompare', (done) => {
+    moxios.stubRequest(/cryptocompare.com\/data\/price/, {
       status: 200,
       response: {
-        price_usd: "1200.31"
+        USD: 1200.31
       }
     })
     // moxios request MUST be stubbed before wrapper is mounted

@@ -74,9 +74,16 @@ export default {
     },
     // Fetch fiat price of eth from coinmarketcap
     fetchFiatPrice() {
-      axios.get(`${config.endpoints.marketCap}/ticker/ethereum?convert=${this.fiatCurrency}`)
+      axios.get(config.endpoints.cryptoCompare,
+      {
+        params: {
+          fsym: 'ETH',
+          tsyms: this.fiatCurrency
+        }
+      })
       .then(response => {
-        this.ethFiatPrice = parseInt(parseFloat(response.data.price_usd) *100)
+        this.ethFiatPrice =
+          parseInt(parseFloat(response.data[this.fiatCurrency]) *100)
       })
       .catch(e => console.log(e))
     },
