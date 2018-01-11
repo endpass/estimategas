@@ -17,11 +17,5 @@ export default {
     ens: 500000
   },
   // Default currency for prices
-  defaultCurrency: "USD",
-  // Fiat currencies that are available
-  currenciesAvailable: [
-    "AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "CZK", "DKK", "EUR", "GBP", 
-    "HKD", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK",
-    "NZD", "PHP", "PKR", "PLN", "RUB", "SEK", "SGD", "THB", "TRY", "TWD",
-    "ZAR"]
+  defaultCurrency: "USD"
 }

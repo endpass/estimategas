@@ -9,12 +9,14 @@
 <script>
 import GasPrice from './components/GasPrice'
 import GasLimit from './components/GasLimit'
+import CurrencySelect from './components/CurrencySelect'
 
 export default {
   name: 'app',
   components: {
     GasPrice,
-    GasLimit
+    GasLimit,
+    CurrencySelect
   }
 }
 </script>
