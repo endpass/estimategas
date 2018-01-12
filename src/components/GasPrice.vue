@@ -1,18 +1,18 @@
 <template>
-  <div class="section gas-price">
-    <div class="container">
+  <div class="gas-price">
+    <div class="narrow section header dark-bg">
       <div class="level">
         <div class="level-left">
           <div class="level-item">
             <p class="subtitle">Ethereum Transaction Costs</p>
           </div>
-          <div class="level-item">
+          <div class="level-item is-hidden-touch">
             <p class="block-height">Block <span
-            class="value">{{blockHeight}}</span></p>
+               class="value">{{blockHeight}}</span></p>
           </div>
-          <div class="level-item">
+          <div class="level-item is-hidden-touch">
             <p class="unconfirmed-count"><span
-              class="value">{{unconfirmedCount}}</span>Unconfirmed Transactions</p>
+               class="value">{{unconfirmedCount}}</span>Unconfirmed Transactions</p>
           </div>
         </div>
         <div class="level-right">
@@ -21,60 +21,64 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <h1 class="title">Gas Price</h1>
-      <p class="subtitle description">
-      The gas price, typically calculated in Gwei, changes depending on
-      transaction activity in the Ethereum network.
-      </p>
-      <div class="columns">
-        <div class="column low-price">
-          <div class="box">
-            <p class="title">Cheap</p>
-            <p>The cheapest price likely to still get your transaction
-            through</p>
-            <p class="price stat">{{ lowPrice }}</p>
-            <span class="stat-caption">Gwei</span>
-            <p class="eth-price">
-              <span class="value">{{ standardTxEthPrice(lowPrice) }}</span>
-              <span class="symbol">ETH</span>
-            </p>
-            <p class="fiat-price">
-              <span class="symbol">{{selectedCurrency.symbol}}</span>
-              <span class="value">{{ standardTxFiatPrice(lowPrice) }}</span>
-            </p>
+    <div class="section">
+      <div class="container">
+        <h1 class="title">Gas Price</h1>
+        <p class="subtitle description">
+        The gas price, typically calculated in Gwei, changes depending on
+        transaction activity in the Ethereum network.
+        </p>
+        <div class="columns">
+          <div class="column low-price">
+            <div class="box">
+              <p class="title">Cheap</p>
+              <p>The cheapest price likely to still get your transaction
+              through</p>
+              <p class="price stat">{{ lowPrice }}</p>
+              <span class="stat-caption">Gwei</span>
+              <p class="eth-price">
+                <span class="value">{{ standardTxEthPrice(lowPrice) }}</span>
+                <span class="symbol">ETH</span>
+              </p>
+              <p class="fiat-price">
+                <span class="symbol">{{selectedCurrency.symbol}}</span>
+                <span class="value">{{ standardTxFiatPrice(lowPrice) }}</span>
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="column normal-price">
-          <div class="box">
-            <p class="title">Normal</p>
-            <p>A good balance of speed and value</p>
-            <p class="price stat">{{ normalPrice }}</p>
-            <span class="stat-caption">Gwei</span>
-            <p class="eth-price">
-              <span class="value">{{ standardTxEthPrice(normalPrice) }}</span>
-              <span class="symbol">ETH</span>
-            </p>
-            <p class="fiat-price">
-              <span class="symbol">{{selectedCurrency.symbol}}</span>
-              <span class="value">{{ standardTxFiatPrice(normalPrice) }}</span>
-            </p>
+          <div class="column normal-price">
+            <div class="box">
+              <p class="title">Normal</p>
+              <p>A good balance of speed and value</p>
+              <p class="price stat">{{ normalPrice }}</p>
+              <span class="stat-caption">Gwei</span>
+              <p class="eth-price">
+                <span class="value">{{ standardTxEthPrice(normalPrice) }}</span>
+                <span class="symbol">ETH</span>
+              </p>
+              <p class="fiat-price">
+                <span class="symbol">{{selectedCurrency.symbol}}</span>
+                <span class="value">{{ standardTxFiatPrice(normalPrice) }}</span>
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="column high-price">
-          <div class="box">
-            <p class="title">Fast</p>
-            <p>More expensive, but get your transaction confirmed fast</p>
-            <p class="price stat">{{ highPrice }}</p>
-            <span class="stat-caption">Gwei</span>
-            <p class="eth-price">
-              <span class="value">{{ standardTxEthPrice(highPrice) }}</span>
-              <span class="symbol">ETH</span>
-            </p>
-            <p class="fiat-price">
-              <span class="symbol">{{selectedCurrency.symbol}}</span>
-              <span class="value">{{ standardTxFiatPrice(highPrice) }}</span>
-            </p>
+          <div class="column high-price">
+            <div class="box">
+              <p class="title">Fast</p>
+              <p>More expensive, but get your transaction confirmed fast</p>
+              <p class="price stat">{{ highPrice }}</p>
+              <span class="stat-caption">Gwei</span>
+              <p class="eth-price">
+                <span class="value">{{ standardTxEthPrice(highPrice) }}</span>
+                <span class="symbol">ETH</span>
+              </p>
+              <p class="fiat-price">
+                <span class="symbol">{{selectedCurrency.symbol}}</span>
+                <span class="value">{{ standardTxFiatPrice(highPrice) }}</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

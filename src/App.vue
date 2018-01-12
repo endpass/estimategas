@@ -20,7 +20,19 @@ export default {
 }
 </script>
 
-<style>
-#app {
+<style lang="scss">
+// Variables
+// Colors
+$primary: #8e44ad;
+$white: #ecf0f1;
+
+// Global styles
+.dark-bg {
+  background: $primary;
+  color: $white;
+
+  .title, .subtitle {
+    color: $white;
+  }
 }
 </style>
