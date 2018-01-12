@@ -32,54 +32,29 @@
         </p>
         <div class="columns">
           <div class="column low-price">
-            <div class="box">
-              <p class="title">Cheap</p>
-              <p>The cheapest price likely to still get your transaction
-              through</p>
-              <p class="price stat">{{ lowPrice }}</p>
-              <span class="stat-caption">Gwei</span>
-              <p class="eth-price">
-                <span class="value">{{ standardTxEthPrice(lowPrice) }}</span>
-                <span class="symbol">ETH</span>
-              </p>
-              <p class="fiat-price">
-                <span class="symbol">{{selectedCurrency.symbol}}</span>
-                <span class="value">{{ standardTxFiatPrice(lowPrice) }}</span>
-              </p>
-            </div>
+            <gas-price-box :currency="selectedCurrency" :price="lowPrice"
+              :eth-fiat-price="ethFiatPrice">
+              <p slot="title" class="title">Cheap</p>
+              <p slot="description">The cheapest price likely to still get your transaction through</p>
+            </gas-price-box>
           </div>
+
           <div class="column normal-price">
-            <div class="box">
-              <p class="title">Normal</p>
-              <p>A good balance of speed and value</p>
-              <p class="price stat">{{ normalPrice }}</p>
-              <span class="stat-caption">Gwei</span>
-              <p class="eth-price">
-                <span class="value">{{ standardTxEthPrice(normalPrice) }}</span>
-                <span class="symbol">ETH</span>
-              </p>
-              <p class="fiat-price">
-                <span class="symbol">{{selectedCurrency.symbol}}</span>
-                <span class="value">{{ standardTxFiatPrice(normalPrice) }}</span>
-              </p>
-            </div>
+            <gas-price-box :currency="selectedCurrency" :price="normalPrice"
+              :eth-fiat-price="ethFiatPrice">
+              <p slot="title" class="title">Normal</p>
+              <p slot="description">A good balance of speed and value</p>
+            </gas-price-box>
           </div>
+
           <div class="column high-price">
-            <div class="box">
-              <p class="title">Fast</p>
-              <p>More expensive, but get your transaction confirmed fast</p>
-              <p class="price stat">{{ highPrice }}</p>
-              <span class="stat-caption">Gwei</span>
-              <p class="eth-price">
-                <span class="value">{{ standardTxEthPrice(highPrice) }}</span>
-                <span class="symbol">ETH</span>
-              </p>
-              <p class="fiat-price">
-                <span class="symbol">{{selectedCurrency.symbol}}</span>
-                <span class="value">{{ standardTxFiatPrice(highPrice) }}</span>
-              </p>
-            </div>
+            <gas-price-box :currency="selectedCurrency" :price="highPrice"
+              :eth-fiat-price="ethFiatPrice">
+              <p slot="title" class="title">Fast</p>
+              <p slot="description">More expensive, but get your transaction confirmed fast</p>
+            </gas-price-box>
           </div>
+
         </div>
       </div>
     </div>
@@ -92,12 +67,14 @@ import ethUnit from 'ethjs-unit'
 
 import config from '@/config'
 import CurrencySelect from '@/components/CurrencySelect'
+import GasPriceBox from '@/components/GasPriceBox'
 
 
 export default {
   name: 'GasPrice',
   components: {
-    CurrencySelect
+    CurrencySelect,
+    GasPriceBox
   },
   data () {
     return {
@@ -156,22 +133,6 @@ export default {
           parseInt(ethUnit.fromWei(response.data.high_gas_price,'gwei'))
       })
       .catch(e => console.log(e))
-    },
-
-    // compute tx price in fiat for gas price in Gwei and gas limit
-    txPrice(gasPrice, gasLimit) {
-      let pricePerGwei = this.ethFiatPrice / 1000000000 // price in cents
-      return Math.floor(pricePerGwei * gasPrice * gasLimit) / 100
-    },
-    // tx price in fiat for gas price in Gwei
-    standardTxFiatPrice(gasPrice) {
-      return this.txPrice(gasPrice, config.gasLimits.transaction)
-    },
-    // tx price in fiat for gas price in Gwei
-    standardTxEthPrice(gasPrice) {
-      let amtWei = ethUnit.toWei(gasPrice, 'gwei') *
-        config.gasLimits.transaction
-      return ethUnit.fromWei(amtWei, 'ether')
     },
   },
   computed: {
