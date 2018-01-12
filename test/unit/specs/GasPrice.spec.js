@@ -108,6 +108,28 @@ describe('GasPrice', () => {
     checkValue(wrapper, '.high-price .eth-price .value', 0.00126)
   })
 
+  it('should fetch block info from BlockCypher', (done) => {
+    moxios.stubRequest(/api\.blockcypher\.com/, {
+      status: 200,
+      response: {
+        height: 4897066,
+        unconfirmed_count: 53125,
+        high_gas_price: 60102127578,
+        medium_gas_price: 20000000000,
+        low_gas_price: 5000000000
+      }
+    })
+    // moxios request MUST be stubbed before wrapper is shallowed
+    let wrapper = shallow(GasPrice)
+
+    // Needed to trigger fetching price
+    moxios.wait( () => {
+      expect(wrapper.find('.block-height .value').text()).toEqual('4897066')
+      expect(wrapper.find('.unconfirmed-count .value').text()).toEqual('53125')
+      done()
+    })
+  })
+
   // check that a displayed price is equal to a data variable
   let checkValue = (wrapper, selector, value) => {
     let el = wrapper.find(selector)

@@ -6,6 +6,14 @@
           <div class="level-item">
             <p class="subtitle">Ethereum Transaction Costs</p>
           </div>
+          <div class="level-item">
+            <p class="block-height">Block <span
+            class="value">{{blockHeight}}</span></p>
+          </div>
+          <div class="level-item">
+            <p class="unconfirmed-count"><span
+              class="value">{{unconfirmedCount}}</span>Unconfirmed Transactions</p>
+          </div>
         </div>
         <div class="level-right">
           <div class="level-item">
@@ -94,7 +102,9 @@ export default {
       normalPrice: 20,
       highPrice: 60,
       ethFiatPrice: 0, // int eth price in cents
-      selectedCurrency: {code: config.defaultCurrency}
+      selectedCurrency: {code: config.defaultCurrency},
+      blockHeight: 0,
+      unconfirmedCount: 0
     }
   },
   methods: {
@@ -130,6 +140,15 @@ export default {
       })
       .catch(e => console.log(e))
     },
+    fetchBlockInfo() {
+      axios.get(config.endpoints.blockCypher)
+      .then(response => {
+        this.blockHeight = response.data.height
+        this.unconfirmedCount = response.data.unconfirmed_count
+      })
+      .catch(e => console.log(e))
+    },
+
     // compute tx price in fiat for gas price in Gwei and gas limit
     txPrice(gasPrice, gasLimit) {
       let pricePerGwei = this.ethFiatPrice / 1000000000 // price in cents
@@ -152,6 +171,7 @@ export default {
     }
   },
   mounted() {
+    this.fetchBlockInfo()
     this.fetchPriceFromGasStation()
   }
 }
