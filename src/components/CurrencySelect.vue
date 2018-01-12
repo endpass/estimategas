@@ -23,10 +23,16 @@ export default {
     }
   },
   mounted () {
+    this.loadCurrency()
     this.currencySelected()
   },
   methods: {
+    loadCurrency() {
+      let savedCurrency = this.$cookie.get('currency')
+      this.selectedCurrency = savedCurrency || config.defaultCurrency
+    },
     currencySelected() {
+      this.$cookie.set('currency', this.selectedCurrency, 365)
       this.$emit('currency-selected',
       this.allCurrencies[this.selectedCurrency])
     }
