@@ -35,4 +35,9 @@ $white: #ecf0f1;
     color: $white;
   }
 }
+
+.section.narrow {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
 </style>
