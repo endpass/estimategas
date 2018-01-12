@@ -71,6 +71,10 @@ describe('GasPrice', () => {
     })
     // moxios request MUST be stubbed before wrapper is shallowed
     let wrapper = shallow(GasPrice)
+
+    // Needed to trigger fetching price
+    let currency = {code: config.defaultCurrency}
+    wrapper.vm.updateCurrency(currency)
     moxios.wait( () => {
       expect(wrapper.vm.ethFiatPrice).toEqual(120031)
       done()
