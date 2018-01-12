@@ -1,13 +1,18 @@
-import { mount } from 'vue-test-utils'
+import { createLocalVue, mount } from 'vue-test-utils'
 
 import config from '@/config'
 import CurrencySelect from '@/components/CurrencySelect'
+import VueCookie from 'vue-cookie'
+
 
 describe('CurrencySelect', () => {
+  const localVue = createLocalVue()
+  localVue.use(VueCookie)
+
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(CurrencySelect)
+    wrapper = mount(CurrencySelect, { localVue })
   })
 
   it('should contain a currency select element', () => {

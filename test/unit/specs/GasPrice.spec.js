@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils'
+import { shallow } from 'vue-test-utils'
 import moxios from 'moxios'
 
 import config from '@/config'
@@ -20,13 +20,13 @@ describe('GasPrice', () => {
   })
 
   it('should show a gas price description', () => {
-    let wrapper = mount(GasPrice)
+    let wrapper = shallow(GasPrice)
     expect(wrapper.contains('.gas-price .description')).toBe(true)
     expect(wrapper.find('.gas-price .description').text()).toBeTruthy()
   })
 
   it('should show default prices before fetching updates', () => {
-    let wrapper = mount(GasPrice)
+    let wrapper = shallow(GasPrice)
     let vm = wrapper.vm
     // empty method to not stub ajax every time
     wrapper.setMethods({
@@ -47,8 +47,8 @@ describe('GasPrice', () => {
         fast: 900.0
       }
     })
-    // moxios request MUST be stubbed before wrapper is mounted
-    let wrapper = mount(GasPrice)
+    // moxios request MUST be stubbed before wrapper is shallowed
+    let wrapper = shallow(GasPrice)
     moxios.wait( () => {
       checkValue(wrapper, '.low-price .price', expectedPrices.lowPrice)
       checkValue(wrapper, '.normal-price .price', expectedPrices.normalPrice)
@@ -58,7 +58,7 @@ describe('GasPrice', () => {
   })
 
   it('should have a default fiat currency', () => {
-    let wrapper = mount(GasPrice)
+    let wrapper = shallow(GasPrice)
     expect(wrapper.vm.fiatCurrency).toEqual(config.defaultCurrency)
   })
 
@@ -69,8 +69,8 @@ describe('GasPrice', () => {
         USD: 1200.31
       }
     })
-    // moxios request MUST be stubbed before wrapper is mounted
-    let wrapper = mount(GasPrice)
+    // moxios request MUST be stubbed before wrapper is shallowed
+    let wrapper = shallow(GasPrice)
     moxios.wait( () => {
       expect(wrapper.vm.ethFiatPrice).toEqual(120031)
       done()
@@ -78,7 +78,7 @@ describe('GasPrice', () => {
   })
 
   it('should correctly calculate tx fiat price', () => {
-    let wrapper = mount(GasPrice)
+    let wrapper = shallow(GasPrice)
     wrapper.setData({ethFiatPrice: 120031})
     expect(wrapper.vm.txPrice(20,21000)).toEqual(0.5)
     expect(wrapper.vm.txPrice(40,21000)).toEqual(1)
@@ -87,7 +87,7 @@ describe('GasPrice', () => {
   })
 
   it('should display fiat price at each gas price', () => {
-    let wrapper = mount(GasPrice)
+    let wrapper = shallow(GasPrice)
     wrapper.setData({ethFiatPrice: 120031})
 
     checkValue(wrapper, '.low-price .fiat-price .value', 0.12)
@@ -96,7 +96,7 @@ describe('GasPrice', () => {
   })
 
   it('should display eth price at each gas price', () => {
-    let wrapper = mount(GasPrice)
+    let wrapper = shallow(GasPrice)
 
     // Based on default hardcodes gas price
     checkValue(wrapper, '.low-price .eth-price .value', 0.000105)
