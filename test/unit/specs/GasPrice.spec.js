@@ -95,6 +95,15 @@ describe('GasPrice', () => {
     checkValue(wrapper, '.high-price .fiat-price .value', 1.51)
   })
 
+  it('should display eth price at each gas price', () => {
+    let wrapper = mount(GasPrice)
+
+    // Based on default hardcodes gas price
+    checkValue(wrapper, '.low-price .eth-price .value', 0.000105)
+    checkValue(wrapper, '.normal-price .eth-price .value', 0.00042)
+    checkValue(wrapper, '.high-price .eth-price .value', 0.00126)
+  })
+
   // check that a displayed price is equal to a data variable
   let checkValue = (wrapper, selector, value) => {
     let el = wrapper.find(selector)

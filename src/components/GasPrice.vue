@@ -27,9 +27,13 @@
             through</p>
             <p class="price stat">{{ lowPrice }}</p>
             <span class="stat-caption">Gwei</span>
+            <p class="eth-price">
+              <span class="value">{{ standardTxEthPrice(lowPrice) }}</span>
+              <span class="symbol">ETH</span>
+            </p>
             <p class="fiat-price">
               <span class="symbol">{{selectedCurrency.symbol}}</span>
-              <span class="value">{{ standardTxPrice(lowPrice) }}</span>
+              <span class="value">{{ standardTxFiatPrice(lowPrice) }}</span>
             </p>
           </div>
         </div>
@@ -39,9 +43,13 @@
             <p>A good balance of speed and value</p>
             <p class="price stat">{{ normalPrice }}</p>
             <span class="stat-caption">Gwei</span>
+            <p class="eth-price">
+              <span class="value">{{ standardTxEthPrice(normalPrice) }}</span>
+              <span class="symbol">ETH</span>
+            </p>
             <p class="fiat-price">
               <span class="symbol">{{selectedCurrency.symbol}}</span>
-              <span class="value">{{ standardTxPrice(normalPrice) }}</span>
+              <span class="value">{{ standardTxFiatPrice(normalPrice) }}</span>
             </p>
           </div>
         </div>
@@ -51,9 +59,13 @@
             <p>More expensive, but get your transaction confirmed fast</p>
             <p class="price stat">{{ highPrice }}</p>
             <span class="stat-caption">Gwei</span>
+            <p class="eth-price">
+              <span class="value">{{ standardTxEthPrice(highPrice) }}</span>
+              <span class="symbol">ETH</span>
+            </p>
             <p class="fiat-price">
               <span class="symbol">{{selectedCurrency.symbol}}</span>
-              <span class="value">{{ standardTxPrice(highPrice) }}</span>
+              <span class="value">{{ standardTxFiatPrice(highPrice) }}</span>
             </p>
           </div>
         </div>
@@ -64,6 +76,7 @@
 
 <script>
 import axios from 'axios'
+import ethUnit from 'ethjs-unit'
 
 import config from '@/config'
 import CurrencySelect from '@/components/CurrencySelect'
@@ -122,9 +135,16 @@ export default {
       let pricePerGwei = this.ethFiatPrice / 1000000000 // price in cents
       return Math.floor(pricePerGwei * gasPrice * gasLimit) / 100
     },
-    standardTxPrice(gasPrice) {
+    // tx price in fiat for gas price in Gwei
+    standardTxFiatPrice(gasPrice) {
       return this.txPrice(gasPrice, config.gasLimits.transaction)
-    }
+    },
+    // tx price in fiat for gas price in Gwei
+    standardTxEthPrice(gasPrice) {
+      let amtWei = ethUnit.toWei(gasPrice, 'gwei') *
+        config.gasLimits.transaction
+      return ethUnit.fromWei(amtWei, 'ether')
+    },
   },
   computed: {
     fiatCurrency() {

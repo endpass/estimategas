@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "ethjs-unit": "^0.1.6",
     "vue": "^2.5.2",
     "vue-cookie": "^1.1.4"
   },

@@ -17,5 +17,6 @@ export default {
     ens: 500000
   },
   // Default currency for prices
-  defaultCurrency: "USD"
+  defaultCurrency: "USD",
+  ethPrecision: 8, //precision to round ETH values to
 }
