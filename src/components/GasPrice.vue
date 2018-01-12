@@ -101,6 +101,7 @@ export default {
       lowPrice: 5,
       normalPrice: 20,
       highPrice: 60,
+      maxPrice: 60, //maximum price from blockcypher to sanity check
       ethFiatPrice: 0, // int eth price in cents
       selectedCurrency: {code: config.defaultCurrency},
       blockHeight: 0,
@@ -118,9 +119,11 @@ export default {
       axios.get(config.endpoints.gasStation)
       .then(response => {
         let gasPrices = response.data
-        this.lowPrice = gasPrices.safeLow / 10
-        this.normalPrice = gasPrices.average / 10
-        this.highPrice = gasPrices.fast / 10
+        this.lowPrice = Math.floor(gasPrices.safeLow / 10)
+        this.normalPrice = Math.floor(gasPrices.average / 10)
+        // As sanity check, highPrice is averaged between multiple sources
+        let highPrice = gasPrices.fast / 10
+        this.highPrice = Math.floor((this.maxPrice + highPrice) / 2)
       })
       .catch(e => console.log(e))
     },
@@ -145,6 +148,8 @@ export default {
       .then(response => {
         this.blockHeight = response.data.height
         this.unconfirmedCount = response.data.unconfirmed_count
+        this.maxPrice =
+          parseInt(ethUnit.fromWei(response.data.high_gas_price,'gwei'))
       })
       .catch(e => console.log(e))
     },

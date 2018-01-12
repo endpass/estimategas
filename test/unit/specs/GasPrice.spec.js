@@ -49,6 +49,7 @@ describe('GasPrice', () => {
     })
     // moxios request MUST be stubbed before wrapper is shallowed
     let wrapper = shallow(GasPrice)
+    wrapper.setData({maxPrice:90})
     moxios.wait( () => {
       checkValue(wrapper, '.low-price .price', expectedPrices.lowPrice)
       checkValue(wrapper, '.normal-price .price', expectedPrices.normalPrice)
