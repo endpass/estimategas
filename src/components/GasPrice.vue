@@ -1,6 +1,19 @@
 <template>
   <div class="section gas-price">
     <div class="container">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="subtitle">Ethereum Transaction Costs</p>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <currency-select @currency-selected="updateCurrency"></currency-select>
+          </div>
+        </div>
+      </div>
+
       <h1 class="title">Gas Price</h1>
       <p class="subtitle description">
       The gas price, typically calculated in Gwei, changes depending on
@@ -14,8 +27,10 @@
             through</p>
             <p class="price stat">{{ lowPrice }}</p>
             <span class="stat-caption">Gwei</span>
-            <p class="fiat-price"><span class="value">{{
-              standardTxPrice(lowPrice) }}</span></p>
+            <p class="fiat-price">
+              <span class="symbol">{{selectedCurrency.symbol}}</span>
+              <span class="value">{{ standardTxPrice(lowPrice) }}</span>
+            </p>
           </div>
         </div>
         <div class="column normal-price">
@@ -24,8 +39,10 @@
             <p>A good balance of speed and value</p>
             <p class="price stat">{{ normalPrice }}</p>
             <span class="stat-caption">Gwei</span>
-            <p class="fiat-price"><span class="value">{{
-              standardTxPrice(normalPrice) }}</span></p>
+            <p class="fiat-price">
+              <span class="symbol">{{selectedCurrency.symbol}}</span>
+              <span class="value">{{ standardTxPrice(normalPrice) }}</span>
+            </p>
           </div>
         </div>
         <div class="column high-price">
@@ -34,8 +51,10 @@
             <p>More expensive, but get your transaction confirmed fast</p>
             <p class="price stat">{{ highPrice }}</p>
             <span class="stat-caption">Gwei</span>
-            <p class="fiat-price"><span class="value">{{
-              standardTxPrice(highPrice) }}</span></p>
+            <p class="fiat-price">
+              <span class="symbol">{{selectedCurrency.symbol}}</span>
+              <span class="value">{{ standardTxPrice(highPrice) }}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -47,20 +66,30 @@
 import axios from 'axios'
 
 import config from '@/config'
+import CurrencySelect from '@/components/CurrencySelect'
 
 
 export default {
   name: 'GasPrice',
+  components: {
+    CurrencySelect
+  },
   data () {
     return {
       // Sane defaults for gas price in Gwei
       lowPrice: 5,
       normalPrice: 20,
       highPrice: 60,
-      ethFiatPrice: 0 // int eth price in cents
+      ethFiatPrice: 0, // int eth price in cents
+      selectedCurrency: {code: config.defaultCurrency}
     }
   },
   methods: {
+    updateCurrency(currency) {
+      this.selectedCurrency = currency
+      this.fetchFiatPrice()
+    },
+
     //Fetch gas prices and set them in data
     fetchPriceFromGasStation() {
       axios.get(config.endpoints.gasStation)
@@ -72,6 +101,7 @@ export default {
       })
       .catch(e => console.log(e))
     },
+
     // Fetch fiat price of eth from coinmarketcap
     fetchFiatPrice() {
       axios.get(config.endpoints.cryptoCompare,
@@ -97,14 +127,12 @@ export default {
     }
   },
   computed: {
-    //TODO get from cookie
     fiatCurrency() {
-      return config.defaultCurrency
+      return this.selectedCurrency.code
     }
   },
   mounted() {
     this.fetchPriceFromGasStation()
-    this.fetchFiatPrice()
   }
 }
 

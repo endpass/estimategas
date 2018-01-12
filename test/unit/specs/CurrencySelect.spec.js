@@ -15,13 +15,14 @@ describe('CurrencySelect', () => {
   })
 
   it('should show default currency from config', () => {
-    expect(wrapper.vm.selectedCurrency.code).toEqual(config.defaultCurrency)
+    expect(wrapper.vm.selectedCurrency).toEqual(config.defaultCurrency)
     expect(wrapper.find('select').element.value).toEqual(config.defaultCurrency)
   })
 
   it('should emit an event when the currency changes', () => {
     let el = wrapper.find('select')
     el.element.value = 'CAD'
-    el.trigger('input')
+    el.trigger('change')
+    expect(wrapper.emitted()['currency-selected']).toBeTruthy()
   })
 })

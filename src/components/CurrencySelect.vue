@@ -1,7 +1,7 @@
 <template>
   <div class="currency-select">
     <div class="select">
-      <select v-model="selectedCurrency">
+      <select v-model="selectedCurrency" @change="currencySelected">
         <option v-for="curr in allCurrencies"
                 :value="curr.code">{{curr.code}}</option>
       </select>
@@ -19,7 +19,16 @@ export default {
   data () {
     return {
       allCurrencies: currencies,
-      selectedCurrency: currencies[config.defaultCurrency]
+      selectedCurrency: config.defaultCurrency //currency code as string
+    }
+  },
+  mounted () {
+    this.currencySelected()
+  },
+  methods: {
+    currencySelected() {
+      this.$emit('currency-selected',
+      this.allCurrencies[this.selectedCurrency])
     }
   }
 }
