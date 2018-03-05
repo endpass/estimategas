@@ -31,7 +31,7 @@ export default {
 <style lang="scss">
 // Variables
 // Colors
-$primary: #8e44ad;
+$primary: #4b0472;
 $white: #ecf0f1;
 
 // Global styles

@@ -10,25 +10,37 @@
 
       <div class="columns">
         <div class="column transaction-limit">
-          <div class="box">
-            <p class="title">Simple Transaction</p>
-            <p>For sending ETH to another account</p>
-            <p class="limit stat">{{ gasLimits.transaction }}</p>
+          <div class="gas-limit-box card">
+            <div class="card-header">
+            	<p class="box-title card-header-title is-centered">Simple Transaction</p>
+            </div>
+            <div class="card-content">
+            	<p class="limit stat">{{ gasLimits.transaction }}</p>
+            	<p>For sending ETH to another account</p>
+            </div>
           </div>
         </div>
         <div class="column token-limit">
-          <div class="box">
-            <p class="title">ICO Token</p>
-            <p>For sending or claiming ERC20 tokens</p>
-            <p class="limit stat">{{ gasLimits.token }}</p>
+          <div class="gas-limit-box card">
+            <div class="card-header">
+            	<p class="box-title card-header-title is-centered">ICO Token</p>
+            </div>
+            <div class="card-content">
+            	<p class="limit stat">{{ gasLimits.token }}</p>
+            	<p>For sending or claiming ERC20 tokens</p>
+            </div>
           </div>
         </div>
         <div class="column ens-limit">
-          <div class="box">
-            <p class="title">ENS</p>
-            <p>For registering an ENS domain or calling another complex
-            smart contract</p>
-            <p class="limit stat">{{ gasLimits.ens }}</p>
+          <div class="gas-limit-box card">
+            <div class="card-header">
+            	<p class="box-title card-header-title is-centered">ENS</p>
+            </div>
+            <div class="card-content">
+            	<p class="limit stat">{{ gasLimits.ens }}</p>
+            	<p>For registering an ENS domain or calling another complex
+            	smart contract</p>
+            </div>
           </div>
         </div>
       </div>
@@ -49,3 +61,26 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.gas-limit-box {
+	text-align: center;
+	height: 100%;
+}
+
+.stat {
+	display: block;
+	font-weight: 600;
+	font-size: 3rem;
+}
+.symbol {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+.value {
+	margin: 0 0.2rem;
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+</style>

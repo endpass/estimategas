@@ -4,7 +4,7 @@
       <div class="level">
         <div class="level-left">
           <div class="level-item">
-            <p class="subtitle">Ethereum Transaction Costs</p>
+            <p class="page-title">Ethereum Transaction Costs</p>
           </div>
           <div class="level-item is-hidden-touch">
             <p class="block-height">Block <span
@@ -34,7 +34,7 @@
           <div class="column low-price">
             <gas-price-box :currency="selectedCurrency" :price="lowPrice"
               :eth-fiat-price="ethFiatPrice">
-              <p slot="title" class="title">Cheap</p>
+              <p slot="title" class="box-title">Cheap</p>
               <p slot="description">The cheapest price likely to still get your transaction through</p>
             </gas-price-box>
           </div>
@@ -42,7 +42,7 @@
           <div class="column normal-price">
             <gas-price-box :currency="selectedCurrency" :price="normalPrice"
               :eth-fiat-price="ethFiatPrice">
-              <p slot="title" class="title">Normal</p>
+              <p slot="title" class="box-title">Normal</p>
               <p slot="description">A good balance of speed and value</p>
             </gas-price-box>
           </div>
@@ -50,7 +50,7 @@
           <div class="column high-price">
             <gas-price-box :currency="selectedCurrency" :price="highPrice"
               :eth-fiat-price="ethFiatPrice">
-              <p slot="title" class="title">Fast</p>
+              <p slot="title" class="box-title">Fast</p>
               <p slot="description">More expensive, but get your transaction confirmed fast</p>
             </gas-price-box>
           </div>
@@ -148,5 +148,8 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss">
+.page-title {
+	font-size: 1.6rem;
+}
 </style>
