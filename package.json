@@ -10,7 +10,8 @@
     "unit": "jest --config test/unit/jest.conf.js",
     "watch": "jest --watch --config test/unit/jest.conf.js",
     "test": "npm run unit",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "deploy": "NODE_ENV=production yarn run build && aws s3 sync --delete dist/ s3://estimategas.com/"
   },
   "dependencies": {
     "axios": "^0.17.1",
