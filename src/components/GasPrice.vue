@@ -25,6 +25,12 @@
 
     <div class="section">
       <div class="container">
+        <p class="subtitle description">
+        This page shows the recommended gas settings to use when sending an
+        Ethereum transaction. To make sure your transaction does not get
+        stuck, the gas price part of your transaction fee must be at least
+        the "Cheap" value shown below.
+        </p>
         <h1 class="title">Gas Price</h1>
         <p class="subtitle description">
         The gas price, typically calculated in Gwei, changes depending on
@@ -151,5 +157,8 @@ export default {
 <style lang="scss">
 .page-title {
 	font-size: 1.6rem;
+}
+.title {
+	padding: 0.5em 0;
 }
 </style>
