@@ -6,6 +6,8 @@
     <gas-limit></gas-limit>
 
     <gas-faq></gas-faq>
+
+    <page-footer></page-footer>
   </div>
 </template>
 
@@ -13,13 +15,15 @@
 import GasPrice from './components/GasPrice'
 import GasLimit from './components/GasLimit'
 import GasFaq from './components/GasFaq'
+import PageFooter from './components/PageFooter'
 
 export default {
   name: 'app',
   components: {
     GasPrice,
     GasLimit,
-    GasFaq
+    GasFaq,
+    PageFooter
   }
 }
 </script>
