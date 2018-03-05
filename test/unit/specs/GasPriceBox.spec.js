@@ -20,7 +20,7 @@ describe('GasPriceBox', () => {
   })
 
   it('should show gwei price', () => {
-    expect(wrapper.find('.price .value').text()).toEqual('20')
+    expect(wrapper.find('.price .stat').text()).toEqual('20')
   })
 
   it('should show eth price', () => {
